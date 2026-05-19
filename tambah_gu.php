@@ -61,16 +61,18 @@ if (isset($_POST['simpan'])) {
                 </div>
             </div>
             
-            <div class="grid grid-cols-2 gap-6 mb-5">
-                <div>
-                    <label class="block text-xs font-bold text-gray-700 mb-2">Kecamatan</label>
-                    <input type="text" name="kecamatan" placeholder="Masukkan kecamatan" class="w-full border border-gray-300 p-2.5 rounded-lg text-sm focus:outline-none focus:border-[#110B45]" required>
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-gray-700 mb-2">Desa / Kelurahan</label>
-                    <input type="text" name="desa_kelurahan" placeholder="Masukkan desa/kelurahan" class="w-full border border-gray-300 p-2.5 rounded-lg text-sm focus:outline-none focus:border-[#110B45]" required>
-                </div>
-            </div>
+            <div class="mb-4 md:mb-5">
+    <label class="block text-[10px] md:text-[11px] font-bold text-gray-500 mb-1.5 uppercase tracking-wide">Kecamatan</label>
+    <select name="kecamatan" id="kecamatan" class="w-full bg-[#F8FAFC] border border-gray-200 p-3 rounded-xl text-xs focus:outline-none focus:border-navy cursor-pointer" required>
+        <option value="">-- Pilih Kecamatan --</option>
+    </select>
+</div>
+<div class="mb-4 md:mb-5">
+    <label class="block text-[10px] md:text-[11px] font-bold text-gray-500 mb-1.5 uppercase tracking-wide">Desa / Kelurahan</label>
+    <select name="desa_kelurahan" id="desa_kelurahan" class="w-full bg-[#F8FAFC] border border-gray-200 p-3 rounded-xl text-xs focus:outline-none focus:border-navy cursor-pointer disabled:bg-gray-100 disabled:cursor-not-allowed" required disabled>
+        <option value="">-- Pilih Desa/Kelurahan --</option>
+    </select>
+</div>
 
             <div class="mb-5">
                 <label class="block text-xs font-bold text-gray-700 mb-2">Lemari Rak</label>
@@ -117,6 +119,64 @@ function tampilkanNamaFile() {
         // Kembalikan ke setelan pabrik jika batal memilih file
         textUtama.innerText = "Klik untuk upload file .pdf";
         textSub.innerText = "atau seret file ke area ini (Maks. 5MB)";
+    }
+}
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const dataLumajang = {
+        "Candipuro": ["Candipuro", "Jarit", "Jugosari", "Kloposawit", "Penanggal", "Sumbermujur", "Sumberrejo", "Sumberwuluh", "Tambahrejo", "Tumpeng"],
+        "Gucialit": ["Dadapan", "Gucialit", "Jeruk", "Kenongo", "Kertowono", "Pakel", "Sombo", "Tunjung", "Wonokerto"],
+        "Jatiroto": ["Banyuputih Kidul", "Jatiroto", "Kaliboto Kidul", "Kaliboto Lor", "Rojopolo", "Sukosari"],
+        "Kedungjajang": ["Bandaran", "Bence", "Curahpetung", "Grobogan", "Jatisari", "Kedungjajang", "Krasak", "Pandansari", "Sawaran Kulon", "Tempursari", "Umbul", "Wonorejo"],
+        "Klakah": ["Duren", "Kebonan", "Klakah", "Kudus", "Mlawang", "Papringan", "Ranupakis", "Sawaran Lor", "Sruni", "Sumberwringin", "Tegalciut", "Tegalrandu"],
+        "Kunir": ["Dorogowok", "Jatigono", "Jatimulyo", "Jatirejo", "Kabuaran", "Karanglo", "Kedungmoro", "Kunir Kidul", "Kunir Lor", "Sukorejo", "Sukosari"],
+        "Lumajang": ["Banjarwaru", "Blukon", "Boreng", "Citrodiwangsan", "Denok", "Ditotrunan", "Jogotrunan", "Jogoyudan", "Kepuharjo", "Labruk Lor", "Rogotrunan", "Tompokerasan"],
+        "Padang": ["Babakan", "Barat", "Bodang", "Kalisemut", "Kedawung", "Merakan", "Mojo", "Padang", "Tanggung"],
+        "Pasirian": ["Bades", "Bago", "Condro", "Gondoruso", "Kalibendo", "Madurejo", "Nguter", "Pasirian", "Selok Anyar", "Selok Awar-Awar", "Sememu"],
+        "Pasrujambe": ["Jambearum", "Jambekumbu", "Karanganom", "Kertosari", "Pagowan", "Pasrujambe", "Sukorejo"],
+        "Pronojiwo": ["Oro-oro Ombo", "Pronojiwo", "Sidomulyo", "Sumberurip", "Supiturang", "Tamanayu"],
+        "Randuagung": ["Banyuputih Lor", "Buwek", "Gedangmas", "Kalidilem", "Kalipenggung", "Krapyak", "Ledoktempuro", "Pejarakan", "Randuagung", "Ranulogong", "Ranuwurung", "Salak", "Tunjung"],
+        "Ranuyoso": ["Alun-alun", "Jenggrong", "Meninjo", "Penawungan", "Ranu Bedali", "Ranuyoso", "Sumberpetung", "Tegalbangsri", "Wates Kulon", "Wates Wetan", "Wonoayu"],
+        "Rowokangkung": ["Dawuhan Wetan", "Kedungrejo", "Nogosari", "Rowokangkung", "Sidorejo", "Sumberanyar", "Sumbersari"],
+        "Senduro": ["Argosari", "Bedayu", "Bedayutalang", "Burno", "Kandangan", "Kandangtepus", "Kertosari", "Penanggal", "Purworejo", "Ranupani", "Sarimulyo", "Senduro", "Wonocepokoayu"],
+        "Sukodono": ["Bondoyudo", "Dawuhan Lor", "Karangsari", "Kebonagung", "Klanting", "Kutorenon", "Selokbesuki", "Selokgondang", "Sumberejo", "Uranggantung"],
+        "Sumbersuko": ["Grati", "Kebonsari", "Labruk Kidul", "Mojosari", "Petahunan", "Purwosono", "Sentul", "Sumbersuko"],
+        "Tekung": ["Banyuputih Kidul", "Karangbendo", "Klampokarum", "Mangunsari", "Tekung", "Tukumo", "Wonogriyo", "Wonosari"],
+        "Tempeh": ["Besuk", "Gesang", "Jatisari", "Jokarto", "Kaliwungu", "Lempeni", "Pandanswari", "Pulo", "Sumberjati", "Tempeh Kidul", "Tempeh Lor", "Tempeh Tengah"],
+        "Tempursari": ["Bulurejo", "Kaliuling", "Pundungsari", "Purorejo", "Tegalrejo", "Tempurejo", "Tempursari"],
+        "Yosowilangun": ["Darungan", "Jombang", "Karanganyar", "Karangrejo", "Krapyaklor", "Kraton", "Munder", "Tunjungrejo", "Wotgalih", "Yosowilangun Kidul", "Yosowilangun Lor"]
+    };
+
+    const kecSelect = document.getElementById('kecamatan');
+    const desaSelect = document.getElementById('desa_kelurahan');
+
+    if (kecSelect && desaSelect) {
+        kecSelect.innerHTML = '<option value="">-- Pilih Kecamatan --</option>';
+        for (let kec in dataLumajang) {
+            kecSelect.add(new Option(kec, kec));
+        }
+
+        kecSelect.addEventListener('change', function() {
+            desaSelect.innerHTML = '<option value="">-- Pilih Desa/Kelurahan --</option>';
+            if (this.value) {
+                desaSelect.disabled = false;
+                dataLumajang[this.value].forEach(function(desa) {
+                    desaSelect.add(new Option(desa, desa));
+                });
+            } else {
+                desaSelect.disabled = true;
+            }
+        });
+    }
+});
+
+function toggleMaster() {
+    const submenu = document.getElementById('master-submenu');
+    const chevron = document.getElementById('chevron-icon');
+    if (submenu && chevron) {
+        submenu.classList.toggle('hidden');
+        chevron.classList.toggle('rotate-180');
     }
 }
 </script>
