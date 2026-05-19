@@ -64,16 +64,18 @@ if (isset($_POST['simpan'])) {
                 </div>
             </div>
             
-            <div class="grid grid-cols-2 gap-6 mb-5">
-                <div>
-                    <label class="block text-xs font-bold text-gray-700 mb-2">Kecamatan</label>
-                    <input type="text" name="kecamatan" value="<?= $data['kecamatan']; ?>" class="w-full border p-2.5 rounded-lg text-sm focus:border-[#110B45]" required>
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-gray-700 mb-2">Desa / Kelurahan</label>
-                    <input type="text" name="desa_kelurahan" value="<?= $data['desa_kelurahan']; ?>" class="w-full border p-2.5 rounded-lg text-sm focus:border-[#110B45]" required>
-                </div>
-            </div>
+            <div class="mb-4 md:mb-5">
+    <label class="block text-[10px] md:text-[11px] font-bold text-gray-500 mb-1.5 uppercase tracking-wide">Kecamatan</label>
+    <select name="kecamatan" id="kecamatan" class="w-full bg-[#F8FAFC] border border-gray-200 p-3 rounded-xl text-xs focus:outline-none focus:border-navy cursor-pointer" required>
+        <option value="">-- Pilih Kecamatan --</option>
+    </select>
+</div>
+<div class="mb-4 md:mb-5">
+    <label class="block text-[10px] md:text-[11px] font-bold text-gray-500 mb-1.5 uppercase tracking-wide">Desa / Kelurahan</label>
+    <select name="desa_kelurahan" id="desa_kelurahan" class="w-full bg-[#F8FAFC] border border-gray-200 p-3 rounded-xl text-xs focus:outline-none focus:border-navy cursor-pointer" required>
+        <option value="">-- Pilih Desa/Kelurahan --</option>
+    </select>
+</div>
 
             <div class="mb-5">
                 <label class="block text-xs font-bold text-gray-700 mb-2">Lemari Rak</label>
@@ -125,6 +127,62 @@ function tampilkanNamaFile() {
         textSub.innerText = "File saat ini: " + fileLama;
     }
 }
+</script>
+<script>
+const dataLumajang = {
+    "Candipuro": ["Candipuro", "Jarit", "Jugosari", "Kloposawit", "Penanggal", "Sumbermujur", "Sumberrejo", "Sumberwuluh", "Tambahrejo", "Tumpeng"],
+    "Gucialit": ["Dadapan", "Gucialit", "Jeruk", "Kenongo", "Kertowono", "Pakel", "Sombo", "Tunjung", "Wonokerto"],
+    "Jatiroto": ["Banyuputih Kidul", "Jatiroto", "Kaliboto Kidul", "Kaliboto Lor", "Rojopolo", "Sukosari"],
+    "Kedungjajang": ["Bandaran", "Bence", "Curahpetung", "Grobogan", "Jatisari", "Kedungjajang", "Krasak", "Pandansari", "Sawaran Kulon", "Tempursari", "Umbul", "Wonorejo"],
+    "Klakah": ["Duren", "Kebonan", "Klakah", "Kudus", "Mlawang", "Papringan", "Ranupakis", "Sawaran Lor", "Sruni", "Sumberwringin", "Tegalciut", "Tegalrandu"],
+    "Kunir": ["Dorogowok", "Jatigono", "Jatimulyo", "Jatirejo", "Kabuaran", "Karanglo", "Kedungmoro", "Kunir Kidul", "Kunir Lor", "Sukorejo", "Sukosari"],
+    "Lumajang": ["Banjarwaru", "Blukon", "Boreng", "Citrodiwangsan", "Denok", "Ditotrunan", "Jogotrunan", "Jogoyudan", "Kepuharjo", "Labruk Lor", "Rogotrunan", "Tompokerasan"],
+    "Padang": ["Babakan", "Barat", "Bodang", "Kalisemut", "Kedawung", "Merakan", "Mojo", "Padang", "Tanggung"],
+    "Pasirian": ["Bades", "Bago", "Condro", "Gondoruso", "Kalibendo", "Madurejo", "Nguter", "Pasirian", "Selok Anyar", "Selok Awar-Awar", "Sememu"],
+    "Pasrujambe": ["Jambearum", "Jambekumbu", "Karanganom", "Kertosari", "Pagowan", "Pasrujambe", "Sukorejo"],
+    "Pronojiwo": ["Oro-oro Ombo", "Pronojiwo", "Sidomulyo", "Sumberurip", "Supiturang", "Tamanayu"],
+    "Randuagung": ["Banyuputih Lor", "Buwek", "Gedangmas", "Kalidilem", "Kalipenggung", "Krapyak", "Ledoktempuro", "Pejarakan", "Randuagung", "Ranulogong", "Ranuwurung", "Salak", "Tunjung"],
+    "Ranuyoso": ["Alun-alun", "Jenggrong", "Meninjo", "Penawungan", "Ranu Bedali", "Ranuyoso", "Sumberpetung", "Tegalbangsri", "Wates Kulon", "Wates Wetan", "Wonoayu"],
+    "Rowokangkung": ["Dawuhan Wetan", "Kedungrejo", "Nogosari", "Rowokangkung", "Sidorejo", "Sumberanyar", "Sumbersari"],
+    "Senduro": ["Argosari", "Bedayu", "Bedayutalang", "Burno", "Kandangan", "Kandangtepus", "Kertosari", "Penanggal", "Purworejo", "Ranupani", "Sarimulyo", "Senduro", "Wonocepokoayu"],
+    "Sukodono": ["Bondoyudo", "Dawuhan Lor", "Karangsari", "Kebonagung", "Klanting", "Kutorenon", "Selokbesuki", "Selokgondang", "Sumberejo", "Uranggantung"],
+    "Sumbersuko": ["Grati", "Kebonsari", "Labruk Kidul", "Mojosari", "Petahunan", "Purwosono", "Sentul", "Sumbersuko"],
+    "Tekung": ["Banyuputih Kidul", "Karangbendo", "Klampokarum", "Mangunsari", "Tekung", "Tukumo", "Wonogriyo", "Wonosari"],
+    "Tempeh": ["Besuk", "Gesang", "Jatisari", "Jokarto", "Kaliwungu", "Lempeni", "Pandanswari", "Pulo", "Sumberjati", "Tempeh Kidul", "Tempeh Lor", "Tempeh Tengah"],
+    "Tempursari": ["Bulurejo", "Kaliuling", "Pundungsari", "Purorejo", "Tegalrejo", "Tempurejo", "Tempursari"],
+    "Yosowilangun": ["Darungan", "Jombang", "Karanganyar", "Karangrejo", "Krapyaklor", "Kraton", "Munder", "Tunjungrejo", "Wotgalih", "Yosowilangun Kidul", "Yosowilangun Lor"]
+};
+
+const kecSelect = document.getElementById('kecamatan');
+const desaSelect = document.getElementById('desa_kelurahan');
+const selectedKec = "<?= htmlspecialchars($row['kecamatan'] ?? '') ?>";
+const selectedDesa = "<?= htmlspecialchars($row['desa_kelurahan'] ?? '') ?>";
+
+for (let kec in dataLumajang) {
+    let option = new Option(kec, kec);
+    if (kec === selectedKec) option.selected = true;
+    kecSelect.add(option);
+}
+
+function updateDesa(kecamatanVal, preselectDesa = '') {
+    desaSelect.innerHTML = '<option value="">-- Pilih Desa/Kelurahan --</option>';
+    if (kecamatanVal && dataLumajang[kecamatanVal]) {
+        desaSelect.disabled = false;
+        dataLumajang[kecamatanVal].forEach(function(desa) {
+            let option = new Option(desa, desa);
+            if (desa === preselectDesa) option.selected = true;
+            desaSelect.add(option);
+        });
+    } else {
+        desaSelect.disabled = true;
+    }
+}
+
+updateDesa(selectedKec, selectedDesa);
+
+kecSelect.addEventListener('change', function() {
+    updateDesa(this.value);
+});
 </script>
 </body>
 </html>

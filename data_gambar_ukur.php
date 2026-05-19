@@ -15,7 +15,16 @@ $user_role = $_SESSION['role'];
 // 1. FITUR PENCARIAN & PAGINATION (PEMBAGIAN HALAMAN)
 // =========================================================================
 $search = isset($_GET['cari']) ? mysqli_real_escape_string($conn, $_GET['cari']) : '';
-$where = $search ? "WHERE no_gambar_ukur LIKE '%$search%' OR kecamatan LIKE '%$search%' OR desa_kelurahan LIKE '%$search%'" : "";
+$filter_kecamatan = isset($_GET['kecamatan']) ? mysqli_real_escape_string($conn, $_GET['kecamatan']) : '';
+
+$where_clauses = [];
+if ($search) {
+    $where_clauses[] = "(no_gambar_ukur LIKE '%$search%' OR desa_kelurahan LIKE '%$search%')";
+}
+if ($filter_kecamatan) {
+    $where_clauses[] = "kecamatan = '$filter_kecamatan'";
+}
+$where = !empty($where_clauses) ? "WHERE " . implode(' AND ', $where_clauses) : "";
 
 // Konfigurasi Pagination
 $batas_data = 5; // Menampilkan 5 baris per halaman
@@ -140,12 +149,20 @@ $result = mysqli_query($conn, $query);
 
             <div class="bg-white border border-gray-100 rounded-2xl shadow-sm w-full">
                 <div class="flex flex-col sm:flex-row justify-between items-stretch sm:items-center p-4 md:p-6 border-b border-gray-50 gap-4">
-                    <form method="GET" class="relative w-full sm:w-80">
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <svg class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-                        </div>
-                        <input type="text" name="cari" value="<?= htmlspecialchars($search); ?>" placeholder="Cari gambar ukur..." class="w-full pl-10 p-2.5 border border-gray-200 rounded-xl text-xs md:text-sm focus:outline-none focus:border-navy transition-all">
-                    </form>
+                    <form method="GET" class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+    <select name="kecamatan" onchange="this.form.submit()" class="w-full sm:w-48 bg-[#F8FAFC] border border-gray-200 p-2.5 rounded-xl text-xs md:text-sm focus:outline-none focus:border-navy transition-all font-semibold text-gray-600 cursor-pointer">
+        <option value="">Semua Kecamatan</option>
+        <?php foreach(['Candipuro', 'Gucialit', 'Jatiroto', 'Kedungjajang', 'Klakah', 'Kunir', 'Lumajang', 'Padang', 'Pasirian', 'Pasrujambe', 'Pronojiwo', 'Randuagung', 'Ranuyoso', 'Rowokangkung', 'Senduro', 'Sukodono', 'Sumbersuko', 'Tekung', 'Tempeh', 'Tempursari', 'Yosowilangun'] as $kec): ?>
+            <option value="<?= $kec ?>" <?= ($filter_kecamatan == $kec) ? 'selected' : '' ?>><?= $kec ?></option>
+        <?php endforeach; ?>
+    </select>
+    <div class="relative w-full sm:w-64">
+        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <svg class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        </div>
+        <input type="text" name="cari" value="<?= htmlspecialchars($search); ?>" placeholder="Cari no. ukur / desa..." class="w-full pl-10 p-2.5 border border-gray-200 rounded-xl text-xs md:text-sm focus:outline-none focus:border-navy transition-all">
+    </div>
+</form>
                     <a href="tambah_gu.php" class="bg-navy text-white px-4 md:px-5 py-2.5 rounded-xl text-xs md:text-sm font-bold hover:bg-opacity-90 transition-all shadow-md flex items-center justify-center gap-2">
                         <span class="text-lg">+</span> Tambah Gambar Ukur
                     </a>
