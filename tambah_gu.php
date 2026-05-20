@@ -13,7 +13,9 @@ if (isset($_POST['simpan'])) {
 
     $nama_file = $_FILES['file_pdf']['name'];
     $tmp_file = $_FILES['file_pdf']['tmp_name'];
-    $ekstensi = strtolower(end(explode('.', $nama_file)));
+    // PERUBAHANNYA DI SINI
+    $pecah_nama = explode('.', $nama_file);
+    $ekstensi = strtolower(end($pecah_nama));
     $nama_file_baru = time() . '_' . preg_replace("/[^a-zA-Z0-9.]/", "", $nama_file);
 
     if ($ekstensi === 'pdf') {

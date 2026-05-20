@@ -15,8 +15,9 @@ if (isset($_POST['simpan'])) {
     $password_baru = mysqli_real_escape_string($conn, $_POST['password_baru']);
 
     if (!empty($password_baru)) {
-        // Jika password baru diisi, ganti password lama
-        $query = "UPDATE users SET nama_lengkap='$nama', role='$role', password='$password_baru' WHERE id='$id'";
+        // Enkripsi password baru dengan MD5 sebelum disimpan
+        $password_enkripsi = md5($password_baru);
+        $query = "UPDATE users SET nama_lengkap='$nama', role='$role', password='$password_enkripsi' WHERE id='$id'";
     } else {
         // Jika kosong, pertahankan password lama
         $query = "UPDATE users SET nama_lengkap='$nama', role='$role' WHERE id='$id'";
