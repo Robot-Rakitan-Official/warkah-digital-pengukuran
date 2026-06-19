@@ -65,34 +65,34 @@ if (isset($_POST['simpan'])) {
             </div>
             
             <div class="mb-4 md:mb-5">
-    <label class="block text-[10px] md:text-[11px] font-bold text-gray-500 mb-1.5 uppercase tracking-wide">Kecamatan</label>
-    <select name="kecamatan" id="kecamatan" class="w-full bg-[#F8FAFC] border border-gray-200 p-3 rounded-xl text-xs focus:outline-none focus:border-navy cursor-pointer" required>
-        <option value="">-- Pilih Kecamatan --</option>
-    </select>
-</div>
-<div class="mb-4 md:mb-5">
-    <label class="block text-[10px] md:text-[11px] font-bold text-gray-500 mb-1.5 uppercase tracking-wide">Desa / Kelurahan</label>
-    <select name="desa_kelurahan" id="desa_kelurahan" class="w-full bg-[#F8FAFC] border border-gray-200 p-3 rounded-xl text-xs focus:outline-none focus:border-navy cursor-pointer" required>
-        <option value="">-- Pilih Desa/Kelurahan --</option>
-    </select>
-</div>
+                <label class="block text-[10px] md:text-[11px] font-bold text-gray-500 mb-1.5 uppercase tracking-wide">Kecamatan</label>
+                <select name="kecamatan" id="kecamatan" class="w-full bg-[#F8FAFC] border border-gray-200 p-3 rounded-xl text-xs focus:outline-none focus:border-navy cursor-pointer" required>
+                    <option value="">-- Pilih Kecamatan --</option>
+                </select>
+            </div>
+            <div class="mb-4 md:mb-5">
+                <label class="block text-[10px] md:text-[11px] font-bold text-gray-500 mb-1.5 uppercase tracking-wide">Desa / Kelurahan</label>
+                <select name="desa_kelurahan" id="desa_kelurahan" class="w-full bg-[#F8FAFC] border border-gray-200 p-3 rounded-xl text-xs focus:outline-none focus:border-navy cursor-pointer" required>
+                    <option value="">-- Pilih Desa/Kelurahan --</option>
+                </select>
+            </div>
 
             <div class="mb-5">
                 <label class="block text-xs font-bold text-gray-700 mb-2">Lemari Rak</label>
                 <input type="text" name="lemari_rak" value="<?= $data['lemari_rak']; ?>" class="w-full border p-2.5 rounded-lg text-sm focus:border-[#110B45]" required>
             </div>
 
-          <div class="mb-5">
-    <label class="block text-xs font-bold text-gray-700 mb-2">File pdf</label>
-    <div class="dash-border rounded-xl p-8 text-center cursor-pointer hover:bg-gray-50 transition relative bg-[#F8FAFC]">
-        <input type="file" name="file_pdf" id="file_pdf" accept="application/pdf" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" onchange="tampilkanNamaFile()">
-        
-        <svg class="w-8 h-8 text-gray-400 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 30 003-3v-1m-4-81-4-4m0 0L8 8m4-4v12"></path></svg>
-        
-        <p id="text-utama" class="text-sm font-bold text-gray-700 mb-1">Klik untuk mengganti file .pdf yang sudah ada</p>
-        <p id="text-sub" class="text-xs text-gray-400">File saat ini: <?= $data['file_pdf']; ?></p>
-    </div>
-</div>
+            <div class="mb-5">
+                <label class="block text-xs font-bold text-gray-700 mb-2">File pdf</label>
+                <div class="dash-border rounded-xl p-8 text-center cursor-pointer hover:bg-gray-50 transition relative bg-[#F8FAFC]">
+                    <input type="file" name="file_pdf" id="file_pdf" accept="application/pdf" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" onchange="tampilkanNamaFile()">
+                    
+                    <svg class="w-8 h-8 text-gray-400 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 30 003-3v-1m-4-81-4-4m0 0L8 8m4-4v12"></path></svg>
+                    
+                    <p id="text-utama" class="text-sm font-bold text-gray-700 mb-1">Klik untuk mengganti file .pdf yang sudah ada</p>
+                    <p id="text-sub" class="text-xs text-gray-400">File saat ini: <?= $data['file_pdf']; ?></p>
+                </div>
+            </div>
 
             <div class="mb-8">
                 <label class="block text-xs font-bold text-gray-700 mb-2">Status Keterangan</label>
@@ -105,14 +105,15 @@ if (isset($_POST['simpan'])) {
             </div>
         </form>
     </div>
-    <script>
+
+<script>
 function tampilkanNamaFile() {
     const inputBerkas = document.getElementById('file_pdf');
     const textUtama = document.getElementById('text-utama');
     const textSub = document.getElementById('text-sub');
     
     // Mengunci nama file lama dari database sebagai cadangan visual
-    const fileLama = "<?= $data['file_pdf']; ?>";
+    const fileLama = "<?= htmlspecialchars($data['file_pdf']); ?>";
 
     // Cek apakah ada file baru yang dipilih oleh user
     if (inputBerkas.files.length > 0) {
@@ -128,35 +129,38 @@ function tampilkanNamaFile() {
     }
 }
 </script>
+
 <script>
 const dataLumajang = {
     "Candipuro": ["Candipuro", "Jarit", "Jugosari", "Kloposawit", "Penanggal", "Sumbermujur", "Sumberrejo", "Sumberwuluh", "Tambahrejo", "Tumpeng"],
     "Gucialit": ["Dadapan", "Gucialit", "Jeruk", "Kenongo", "Kertowono", "Pakel", "Sombo", "Tunjung", "Wonokerto"],
-    "Jatiroto": ["Banyuputih Kidul", "Jatiroto", "Kaliboto Kidul", "Kaliboto Lor", "Rojopolo", "Sukosari"],
+    "Jatiroto": ["Banyuputih Kidul", "Jatiroto", "Kaliboto", "Kaliboto Kidul", "Kaliboto Lor", "Rojopolo", "Sukosari"],
     "Kedungjajang": ["Bandaran", "Bence", "Curahpetung", "Grobogan", "Jatisari", "Kedungjajang", "Krasak", "Pandansari", "Sawaran Kulon", "Tempursari", "Umbul", "Wonorejo"],
-    "Klakah": ["Duren", "Kebonan", "Klakah", "Kudus", "Mlawang", "Papringan", "Ranupakis", "Sawaran Lor", "Sruni", "Sumberwringin", "Tegalciut", "Tegalrandu"],
-    "Kunir": ["Dorogowok", "Jatigono", "Jatimulyo", "Jatirejo", "Kabuaran", "Karanglo", "Kedungmoro", "Kunir Kidul", "Kunir Lor", "Sukorejo", "Sukosari"],
+    "Klakah": ["Duren", "Kebonan", "Klakah", "Kudus", "Mlawang", "Papringan", "Ranupakis", "Sawaran Lor", "Sruni", "Sumberweringin", "Tegalciut", "Tegalrandu"],
+    "Kunir": ["Dorogowok", "Jatigono", "Jatimulyo", "Jatirejo", "Kabuaran", "Karanglo", "Kedungmoro", "Kunir", "Kunir Kidul", "Kunir Lor", "Sukorejo", "Sukosari"],
     "Lumajang": ["Banjarwaru", "Blukon", "Boreng", "Citrodiwangsan", "Denok", "Ditotrunan", "Jogotrunan", "Jogoyudan", "Kepuharjo", "Labruk Lor", "Rogotrunan", "Tompokerasan"],
     "Padang": ["Babakan", "Barat", "Bodang", "Kalisemut", "Kedawung", "Merakan", "Mojo", "Padang", "Tanggung"],
-    "Pasirian": ["Bades", "Bago", "Condro", "Gondoruso", "Kalibendo", "Madurejo", "Nguter", "Pasirian", "Selok Anyar", "Selok Awar-Awar", "Sememu"],
+    "Pasirian": ["Bades", "Bago", "Condro", "Gondoruso", "Kalibendo", "Madurejo", "Nguter", "Pasirian", "Selokanyar", "Selokawarawar", "Sememu"],
     "Pasrujambe": ["Jambearum", "Jambekumbu", "Karanganom", "Kertosari", "Pagowan", "Pasrujambe", "Sukorejo"],
     "Pronojiwo": ["Oro-oro Ombo", "Pronojiwo", "Sidomulyo", "Sumberurip", "Supiturang", "Tamanayu"],
-    "Randuagung": ["Banyuputih Lor", "Buwek", "Gedangmas", "Kalidilem", "Kalipenggung", "Krapyak", "Ledoktempuro", "Pejarakan", "Randuagung", "Ranulogong", "Ranuwurung", "Salak", "Tunjung"],
-    "Ranuyoso": ["Alun-alun", "Jenggrong", "Meninjo", "Penawungan", "Ranu Bedali", "Ranuyoso", "Sumberpetung", "Tegalbangsri", "Wates Kulon", "Wates Wetan", "Wonoayu"],
+    "Randuagung": ["Banyuputih Lor", "Buwek", "Gedangmas", "Kalidilem", "Kalipenggung", "Ledoktempuro", "Pejarakan", "Randuagung", "Ranulogong", "Ranuwurung", "Salak", "Tunjung"],
+    "Ranuyoso": ["Alun-alun", "Jenggrong", "Meninjo", "Penawungan", "Ranubedali", "Ranuyoso", "Sumberpetung", "Tegalbangsri", "Wates Kulon", "Wates Wetan", "Wonoayu"],
     "Rowokangkung": ["Dawuhan Wetan", "Kedungrejo", "Nogosari", "Rowokangkung", "Sidorejo", "Sumberanyar", "Sumbersari"],
-    "Senduro": ["Argosari", "Bedayu", "Bedayutalang", "Burno", "Kandangan", "Kandangtepus", "Kertosari", "Penanggal", "Purworejo", "Ranupani", "Sarimulyo", "Senduro", "Wonocepokoayu"],
+    "Senduro": ["Argosari", "Bedayu", "Bedayutalang", "Burno", "Kandangan", "Kandangtepus", "Pandansari", "Purworejo", "Ranupane", "Sarikemuning", "Senduro", "Wonocepokoayu"],
     "Sukodono": ["Bondoyudo", "Dawuhan Lor", "Karangsari", "Kebonagung", "Klanting", "Kutorenon", "Selokbesuki", "Selokgondang", "Sumberejo", "Uranggantung"],
     "Sumbersuko": ["Grati", "Kebonsari", "Labruk Kidul", "Mojosari", "Petahunan", "Purwosono", "Sentul", "Sumbersuko"],
-    "Tekung": ["Banyuputih Kidul", "Karangbendo", "Klampokarum", "Mangunsari", "Tekung", "Tukumo", "Wonogriyo", "Wonosari"],
-    "Tempeh": ["Besuk", "Gesang", "Jatisari", "Jokarto", "Kaliwungu", "Lempeni", "Pandanswari", "Pulo", "Sumberjati", "Tempeh Kidul", "Tempeh Lor", "Tempeh Tengah"],
+    "Tekung": ["Karangbendo", "Klampokarum", "Mangunsari", "Tekung", "Tukum", "Wonogriyo", "Wonokerto", "Wonosari"],
+    "Tempeh": ["Besuk", "Gesang", "Jatisari", "Jokarto", "Kaliwungu", "Lempeni", "Pandanarum", "Pandanwangi", "Pulo", "Sumberjati", "Tempeh Kidul", "Tempeh Lor", "Tempeh Tengah"],
     "Tempursari": ["Bulurejo", "Kaliuling", "Pundungsari", "Purorejo", "Tegalrejo", "Tempurejo", "Tempursari"],
-    "Yosowilangun": ["Darungan", "Jombang", "Karanganyar", "Karangrejo", "Krapyaklor", "Kraton", "Munder", "Tunjungrejo", "Wotgalih", "Yosowilangun Kidul", "Yosowilangun Lor"]
+    "Yosowilangun": ["Darungan", "Kalipepe", "Karanganyar", "Karangrejo", "Kebonsari", "Krai", "Kraton", "Munder", "Tunjungrejo", "Wotgalih", "Yosowilangun", "Yosowilangun Kidul", "Yosowilangun Lor"]
 };
 
 const kecSelect = document.getElementById('kecamatan');
 const desaSelect = document.getElementById('desa_kelurahan');
-const selectedKec = "<?= htmlspecialchars($row['kecamatan'] ?? '') ?>";
-const selectedDesa = "<?= htmlspecialchars($row['desa_kelurahan'] ?? '') ?>";
+
+// Perbaikan: Sebelumnya $row, diganti menjadi $data agar sesuai dengan pemanggilan database di PHP atas
+const selectedKec = "<?= htmlspecialchars($data['kecamatan'] ?? '') ?>";
+const selectedDesa = "<?= htmlspecialchars($data['desa_kelurahan'] ?? '') ?>";
 
 for (let kec in dataLumajang) {
     let option = new Option(kec, kec);
@@ -178,6 +182,7 @@ function updateDesa(kecamatanVal, preselectDesa = '') {
     }
 }
 
+// Jalankan fungsi saat pertama kali halaman di-load agar memunculkan desa yang tersimpan
 updateDesa(selectedKec, selectedDesa);
 
 kecSelect.addEventListener('change', function() {

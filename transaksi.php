@@ -44,6 +44,8 @@ $result = mysqli_query($conn, $query);
     <title>Transaksi - Warkah Digital</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css?family=Inter:wght@400;500;600;700&family=Public+Sans:wght@700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #F8FAFC; }
         .font-heading { font-family: 'Public Sans', sans-serif; }
@@ -155,6 +157,12 @@ $result = mysqli_query($conn, $query);
                             </div>
                             <input type="text" name="cari" value="<?= htmlspecialchars($search); ?>" placeholder="Cari transaksi..." class="w-full pl-10 p-2.5 border border-gray-200 rounded-xl text-xs md:text-sm focus:outline-none focus:border-navy transition-all">
                         </form>
+                        
+                        <button onclick="bukaScanner()" class="bg-emerald-500 text-white px-4 md:px-5 py-2.5 rounded-xl text-xs md:text-sm font-bold hover:bg-emerald-600 transition-all shadow-md flex items-center justify-center gap-2 whitespace-nowrap">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm14 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"></path></svg>
+                            Scan Pengembalian
+                        </button>
+
                         <a href="tambah_transaksi.php" class="bg-navy text-white px-4 md:px-5 py-2.5 rounded-xl text-xs md:text-sm font-bold hover:bg-opacity-90 transition-all shadow-md flex items-center justify-center gap-2 whitespace-nowrap">
                             <span class="text-lg">+</span> Peminjaman Baru
                         </a>
@@ -265,25 +273,6 @@ $result = mysqli_query($conn, $query);
         </main>
     </div>
 
-    <div id="modalKembalikan" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/60 backdrop-blur-sm transition-all no-print">
-        <div class="bg-white rounded-[1.5rem] p-6 max-w-sm w-full mx-4 shadow-2xl border border-gray-100 animate-fade-in text-center relative overflow-hidden">
-            <div class="absolute top-0 left-0 w-full h-1.5 bg-[#110B45]"></div>
-            <div class="w-16 h-16 bg-indigo-50 text-[#110B45] rounded-full flex items-center justify-center mx-auto mb-4 border-[4px] border-white shadow-sm ring-1 ring-indigo-100">
-                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-            </div>
-            <h3 class="font-extrabold text-[#110B45] text-lg mb-2 font-['Public_Sans']">Proses Pengembalian?</h3>
-            <p class="text-[11px] text-gray-500 font-medium mb-6 leading-relaxed">Apakah Anda yakin ingin menyelesaikan transaksi ini dan memproses pengembalian warkah ke arsip?</p>
-            <div class="flex justify-center gap-3">
-                <button onclick="tutupModalKembalikan()" class="px-5 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-xs font-bold transition-all w-1/2">
-                    Tidak, Batal
-                </button>
-                <button onclick="eksekusiKembalikan()" class="px-5 py-2.5 bg-[#110B45] hover:bg-opacity-90 text-white rounded-xl text-xs font-bold transition-all shadow-md w-1/2">
-                    Ya, Proses
-                </button>
-            </div>
-        </div>
-    </div>
-
     <div id="modalHapus" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/60 backdrop-blur-sm transition-all no-print">
         <div class="bg-white rounded-[1.5rem] p-6 max-w-sm w-full mx-4 shadow-2xl border border-gray-100 animate-fade-in text-center relative overflow-hidden">
             <div class="absolute top-0 left-0 w-full h-1.5 bg-red-600"></div>
@@ -303,6 +292,17 @@ $result = mysqli_query($conn, $query);
         </div>
     </div>
 
+    <div id="modalScanner" class="fixed inset-0 z-[60] hidden flex items-center justify-center bg-black/60 backdrop-blur-sm transition-all no-print">
+        <div class="bg-white rounded-[1.5rem] p-6 max-w-sm w-full mx-4 shadow-2xl border border-gray-100 animate-fade-in text-center relative overflow-hidden">
+            <h3 class="font-extrabold text-[#110B45] text-lg mb-4 font-['Public_Sans']">Scan Pengembalian</h3>
+            <div id="qr-reader" class="w-full mb-4 rounded-xl overflow-hidden border-[3px] border-dashed border-[#110B45]"></div>
+            <p class="text-[11px] text-gray-500 font-medium mb-6 leading-relaxed">Arahkan kamera ke QR Code pada dokumen fisik Gambar Ukur untuk memproses pengembalian secara otomatis.</p>
+            <button type="button" onclick="tutupScanner()" class="w-full px-5 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-xs font-bold transition-all shadow-sm">
+                Tutup Kamera
+            </button>
+        </div>
+    </div>
+
     <script>
         function toggleMaster() {
             const submenu = document.getElementById('master-submenu');
@@ -311,20 +311,30 @@ $result = mysqli_query($conn, $query);
             chevron.classList.toggle('rotate-180');
         }
 
-        let urlTargetKembalikan = '';
+        // --- GANTI KODE POP-UP LAMA DENGAN SWEETALERT2 ---
         function bukaModalKembalikan(event, url) {
             event.preventDefault(); 
-            urlTargetKembalikan = url; 
-            document.getElementById('modalKembalikan').classList.remove('hidden'); 
-        }
-        function tutupModalKembalikan() {
-            document.getElementById('modalKembalikan').classList.add('hidden'); 
-            urlTargetKembalikan = ''; 
-        }
-        function eksekusiKembalikan() {
-            if (urlTargetKembalikan) {
-                window.location.href = urlTargetKembalikan; 
-            }
+            
+            Swal.fire({
+                title: 'Proses Pengembalian?',
+                text: "Apakah Anda yakin ingin menyelesaikan transaksi ini dan memproses pengembalian warkah ke arsip?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#110B45', 
+                cancelButtonColor: '#E2E8F0',
+                confirmButtonText: 'Ya, Proses',
+                cancelButtonText: 'Tidak, Batal',
+                customClass: {
+                    popup: 'rounded-[1.5rem]',
+                    confirmButton: 'px-5 py-2.5 rounded-xl text-xs font-bold font-["Inter"] text-white',
+                    cancelButton: 'px-5 py-2.5 rounded-xl text-xs font-bold font-["Inter"] text-gray-700'
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Eksekusi jika user menekan tombol "Ya, Proses"
+                    window.location.href = url; 
+                }
+            });
         }
 
         let urlTargetHapus = '';
@@ -341,6 +351,35 @@ $result = mysqli_query($conn, $query);
             if (urlTargetHapus) {
                 window.location.href = urlTargetHapus; 
             }
+        }
+
+        // --- SCRIPT UNTUK SCANNER QR PENGEMBALIAN ---
+        let html5QrcodeScanner;
+
+        function bukaScanner() {
+            document.getElementById('modalScanner').classList.remove('hidden');
+            html5QrcodeScanner = new Html5QrcodeScanner(
+                "qr-reader",
+                { fps: 10, qrbox: { width: 250, height: 250 } },
+                false
+            );
+            html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+        }
+
+        function tutupScanner() {
+            document.getElementById('modalScanner').classList.add('hidden');
+            if (html5QrcodeScanner) {
+                html5QrcodeScanner.clear().catch(error => console.error("Gagal menutup scanner.", error));
+            }
+        }
+
+        function onScanSuccess(decodedText, decodedResult) {
+            tutupScanner(); // Otomatis tutup kamera setelah berhasil
+            window.location.href = 'kembalikan_scan.php?no_gu=' + encodeURIComponent(decodedText);
+        }
+
+        function onScanFailure(error) {
+            // Biarkan kosong
         }
     </script>
 </body>
