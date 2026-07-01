@@ -141,28 +141,28 @@ function tampilkanNamaFile() {
 // Data Array Desa dan Kecamatan yang Sudah Diperbaiki
 document.addEventListener('DOMContentLoaded', function() {
     const dataLumajang = {
-        "Candipuro": ["Candipuro", "Jarit", "Jugosari", "Kloposawit", "Penanggal", "Sumbermujur", "Sumberrejo", "Sumberwuluh", "Tambahrejo", "Tumpeng"],
-        "Gucialit": ["Dadapan", "Gucialit", "Jeruk", "Kenongo", "Kertowono", "Pakel", "Sombo", "Tunjung", "Wonokerto"],
-        "Jatiroto": ["Banyuputih Kidul", "Jatiroto", "Kaliboto", "Kaliboto Kidul", "Kaliboto Lor", "Rojopolo", "Sukosari"],
-        "Kedungjajang": ["Bandaran", "Bence", "Curahpetung", "Grobogan", "Jatisari", "Kedungjajang", "Krasak", "Pandansari", "Sawaran Kulon", "Tempursari", "Umbul", "Wonorejo"],
-        "Klakah": ["Duren", "Kebonan", "Klakah", "Kudus", "Mlawang", "Papringan", "Ranupakis", "Sawaran Lor", "Sruni", "Sumberweringin", "Tegalciut", "Tegalrandu"],
-        "Kunir": ["Dorogowok", "Jatigono", "Jatimulyo", "Jatirejo", "Kabuaran", "Karanglo", "Kedungmoro", "Kunir", "Kunir Kidul", "Kunir Lor", "Sukorejo", "Sukosari"],
-        "Lumajang": ["Banjarwaru", "Blukon", "Boreng", "Citrodiwangsan", "Denok", "Ditotrunan", "Jogotrunan", "Jogoyudan", "Kepuharjo", "Labruk Lor", "Rogotrunan", "Tompokerasan"],
-        "Padang": ["Babakan", "Barat", "Bodang", "Kalisemut", "Kedawung", "Merakan", "Mojo", "Padang", "Tanggung"],
-        "Pasirian": ["Bades", "Bago", "Condro", "Gondoruso", "Kalibendo", "Madurejo", "Nguter", "Pasirian", "Selokanyar", "Selokawarawar", "Sememu"],
-        "Pasrujambe": ["Jambearum", "Jambekumbu", "Karanganom", "Kertosari", "Pagowan", "Pasrujambe", "Sukorejo"],
-        "Pronojiwo": ["Oro-oro Ombo", "Pronojiwo", "Sidomulyo", "Sumberurip", "Supiturang", "Tamanayu"],
-        "Randuagung": ["Banyuputih Lor", "Buwek", "Gedangmas", "Kalidilem", "Kalipenggung", "Ledoktempuro", "Pejarakan", "Randuagung", "Ranulogong", "Ranuwurung", "Salak", "Tunjung"],
-        "Ranuyoso": ["Alun-alun", "Jenggrong", "Meninjo", "Penawungan", "Ranubedali", "Ranuyoso", "Sumberpetung", "Tegalbangsri", "Wates Kulon", "Wates Wetan", "Wonoayu"],
-        "Rowokangkung": ["Dawuhan Wetan", "Kedungrejo", "Nogosari", "Rowokangkung", "Sidorejo", "Sumberanyar", "Sumbersari"],
-        "Senduro": ["Argosari", "Bedayu", "Bedayutalang", "Burno", "Kandangan", "Kandangtepus", "Pandansari", "Purworejo", "Ranupane", "Sarikemuning", "Senduro", "Wonocepokoayu"],
-        "Sukodono": ["Bondoyudo", "Dawuhan Lor", "Karangsari", "Kebonagung", "Klanting", "Kutorenon", "Selokbesuki", "Selokgondang", "Sumberejo", "Uranggantung"],
-        "Sumbersuko": ["Grati", "Kebonsari", "Labruk Kidul", "Mojosari", "Petahunan", "Purwosono", "Sentul", "Sumbersuko"],
-        "Tekung": ["Karangbendo", "Klampokarum", "Mangunsari", "Tekung", "Tukum", "Wonogriyo", "Wonokerto", "Wonosari"],
-        "Tempeh": ["Besuk", "Gesang", "Jatisari", "Jokarto", "Kaliwungu", "Lempeni", "Pandanarum", "Pandanwangi", "Pulo", "Sumberjati", "Tempeh Kidul", "Tempeh Lor", "Tempeh Tengah"],
-        "Tempursari": ["Bulurejo", "Kaliuling", "Pundungsari", "Purorejo", "Tegalrejo", "Tempurejo", "Tempursari"],
-        "Yosowilangun": ["Darungan", "Kalipepe", "Karanganyar", "Karangrejo", "Kebonsari", "Krai", "Kraton", "Munder", "Tunjungrejo", "Wotgalih", "Yosowilangun", "Yosowilangun Kidul", "Yosowilangun Lor"]
-    };
+    "Pronojiwo": ["Supiturang", "Tamanayu", "Sidomulyo", "Sumberurip", "Oro-oro Ombo", "Pronojiwo"],
+    "Candipuro": ["Jugosari", "Sumberwuluh", "Sumbermujur", "Penanggal", "Tambahrejo", "Sumberejo", "Candipuro", "Jarit", "Kloposawit", "Tumpeng"],
+    "Pasirian": ["Selok Awar-awar", "Bago", "Bades", "Gondoruso", "Kalibendo", "Pasirian", "Condro", "Madurejo", "Sememu", "Nguter", "Selok Anyar"],
+    "Tempeh": ["Pandanwangi", "Sumberjati", "Tempeh Kidul", "Lempeni", "Tempeh Tengah", "Kaliwungu", "Tempeh Lor", "Besuk", "Jatisari", "Pulo", "Gesang", "Jokarto", "Pandanarum"],
+    "Kunir": ["Jatimulyo", "Jatirejo", "Jatigono", "Kunir Kidul", "Kunir Lor", "Sukosari", "Sukorejo", "Karanglo", "Kedungmoro", "Dorogowok", "Kabuaran"],
+    "Tekung": ["Wonogriyo", "Mangunsari", "Wonosari", "Tekung", "Wonokerto", "Karangbendo", "Klampokarum", "Tukum"],
+    "Yosowilangun": ["Karangrejo", "Karanganyar", "Krai", "Kraton", "Tunjungrejo", "Yosowilangun Lor", "Munder", "Kebonsari", "Kalipepe", "Yosowilangun Kidul", "Wotgalih", "Darungan"],
+    "Jatiroto": ["Banyuputih Kidul", "Rojopolo", "Kaliboto Lor", "Kaliboto Kidul", "Sukosari", "Jatiroto"],
+    "Lumajang": ["Banjarwaru", "Labruk Lor", "Citrodiwangsan", "Ditotrunan", "Jogotrunan", "Denok", "Blukon", "Boreng", "Jogoyudan", "Tompokersan", "Rogotrunan", "Kepuharjo"],
+    "Senduro": ["Purworejo", "Sarikemuning", "Pandansari", "Senduro", "Burno", "Kandangtepus", "Kandangan", "Bedayu", "Bedayu Talang", "Wonocepoko Ayu", "Argosari", "Ranupane"],
+    "Sukodono": ["Uranggantung", "Selokgondang", "Sumberejo", "Bondoyudo", "Selokbesuki", "Kutorenon", "Dawuhan Lor", "Karangsari", "Kebonagung", "Klanting"],
+    "Randuagung": ["Kalidilem", "Tunjung", "Gedang Mas", "Randuagung", "Banyuputih Lor", "Pejarakan", "Buwek", "Ledoktempuro", "Ranuwurung", "Ranulogong", "Kalipenggung", "Salak"],
+    "Gucialit": ["Wonokerto", "Pakel", "Kenongo", "Gucialit", "Dadapan", "Kertowono", "Tunjung", "Jeruk", "Sombo"],
+    "Klakah": ["Kebonan", "Kudus", "Duren", "Sumberweringin", "Papringan", "Ranupakis", "Tegalrandu", "Klakah", "Mlawang", "Sawaran Lor", "Sruni", "Tegalciut"],
+    "Ranuyoso": ["Alun Alun", "Ranubedali", "Sumberpetung", "Tegalbangsri", "Ranuyoso", "Meninjo", "Jenggrong", "Penawungan", "Wonoayu", "Wates Wetan", "Wates Kulon"],
+    "Tempursari": ["Bulurejo", "Purorejo", "Tempurejo", "Tempursari", "Pudungsari", "Kaliuling", "Tegalrejo"],
+    "Kedungjajang": ["Kedungjajang", "Grobogan", "Sawaran Kulon", "Curahpetung", "Pandansari", "Krasak", "Bence", "Jatisari", "Bandaran", "Tempursari", "Umbul", "Wonorejo"],
+    "Rowokangkung": ["Dawuhan Wetan", "Sumbersari", "Kedungrejo", "Sidorejo", "Rowokangkung", "Nogosari", "Sumberanyar"],
+    "Padang": ["Padang", "Mojo", "Babakan", "Barat", "Bodang", "Kedawung", "Kalisemut", "Merakan", "Tanggung"],
+    "Pasrujambe": ["Pasrujambe", "Jambekumbu", "Sukorejo", "Jambearum", "Pagowan", "Kertosari", "Karanganom"],
+    "Sumbersuko": ["Labruk Kidul", "Sumbersuko", "Grati", "Mojosari", "Kebonsari", "Petahunan", "Purwosono", "Sentul"]
+};
 
     const kecSelect = document.getElementById('kecamatan');
     const desaSelect = document.getElementById('desa_kelurahan');
