@@ -169,15 +169,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (kecSelect && desaSelect) {
         kecSelect.innerHTML = '<option value="">-- Pilih Kecamatan --</option>';
-        for (let kec in dataLumajang) {
+        
+        // PERBAIKAN 1: Mengurutkan (sort) key/nama kecamatan sesuai abjad
+        const sortedKecamatan = Object.keys(dataLumajang).sort();
+        sortedKecamatan.forEach(function(kec) {
             kecSelect.add(new Option(kec, kec));
-        }
+        });
 
         kecSelect.addEventListener('change', function() {
             desaSelect.innerHTML = '<option value="">-- Pilih Desa/Kelurahan --</option>';
             if (this.value) {
                 desaSelect.disabled = false;
-                dataLumajang[this.value].forEach(function(desa) {
+                
+                // PERBAIKAN 2: Mengurutkan (sort) array nama desa sesuai abjad
+                const sortedDesa = dataLumajang[this.value].sort();
+                sortedDesa.forEach(function(desa) {
                     desaSelect.add(new Option(desa, desa));
                 });
             } else {
